@@ -1,0 +1,67 @@
+h3 time
+    .badge.badge-default#time-badge generation #{clock.history.length}
+
+.form-group.btn-group
+    button.btn#start(type='button', disabled=clock.isRunning()) start
+    button.btn#stop(type='button', disabled=!clock.isRunning()) stop
+    button.btn#reset(type='button', disabled=clock.isRunning()) reset
+
+if stableFlag
+    .alert.alert-warning no changes. clock stopped
+
+
+h3 speed
+.form-group
+    input.block#interval(type='range', min=10, max=5000, step=1, value=clock.speed)
+    .text-muted
+        output#interval-label #{clock.speed}
+        | ms
+
+h3 manual step
+.form-group.btn-group
+    button.btn#next(type='button', disabled=clock.isRunning()) next
+    button.btn#prev(type='button', disabled=clock.isRunning() || clock.history.length === 0) prev
+
+h3 god mode
+.form-group.btn-group
+    button.btn.god-mode(type='button', data-type='on', disabled=godMode) on
+    button.btn.god-mode(type='button', data-type='off', disabled=!godMode) off
+    button.btn#randomize(type='button', disabled=clock.isRunning()) randomize world
+
+if godMode
+    .form-group
+        label action type
+        select#create-object-type.form-control
+            option(value='point') toggle point state
+            option(value='glider') place a glider
+
+    .form-group
+        .text-muted give or take life by clicking on each cell
+
+h3 view
+.form-group.btn-group
+    button.btn#resetView(type='button') reset
+.form-group
+    .text-muted you can pan & zoom with mouse / track pad / wheel
+
+h3 world auto-expansion
+.form-group.btn-group
+    button.btn.auto-expansion(type='button', data-type='on', disabled=!array.expandBlock) on
+    button.btn.auto-expansion(type='button', data-type='off', disabled=array.expandBlock) off
+.form-group
+    .text-muted you can turn on world auto-expansion upon reaching borders
+    .text-muted please note that it is not optimized and will lag on higher dimensions
+
+
+h3 states
+.form-group.btn-group
+    button.btn#state-save(type='button', disabled=clock.isRunning()) save state
+    button.btn#state-clear(type='button', disabled=clock.isRunning()) clear states
+
+ul.list-group
+each state, k in states
+    li.list-group-item
+        | ##{k} generation: #{state.history.length}, size: #{state.size}
+        .btn-group
+            button.btn.state-restore(type='button', data-index=k) restore
+            button.btn.state-remove(type='button', data-index=k) remove
