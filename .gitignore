@@ -1,8 +1,8 @@
 .idea
 *.iml
-*.html
+#*.html
 
-build
+#build
 
 node_modules
 .DS_Store
