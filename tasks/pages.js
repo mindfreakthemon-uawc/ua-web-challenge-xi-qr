@@ -37,9 +37,11 @@ gulp.task('pages:prod', ['vendor', 'app:prod', 'css:prod'], () => {
 	return gulp.src(PAGES_SRC_GLOB)
 		.pipe(plumber())
 		.pipe(inject(series(vendor, app), {
+			addRootSlash: false
 			// transform: (filepath) => `script(inline, src='${filepath}')`
 		}))
 		.pipe(inject(gulp.src('build/css/*.css', { read: false }), {
+			addRootSlash: false
 			// transform: (filepath) => `link(inline, rel='stylesheet', href='${filepath}')`
 		}))
 		.pipe(pug())

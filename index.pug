@@ -31,4 +31,5 @@ html
         script(inline, src='systemjs.config.js')
         script(src='build/templates/templates.js')
         script.
-            System.import('app');
+          System.config({ baseURL: location.pathname });
+          System.import('app');
