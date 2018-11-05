@@ -14,9 +14,11 @@ const APP_OUT_DIR = 'build/app';
 gulp.task('app', ['app:clear'], () => {
 	let compilerOptions = require('../tsconfig.json').compilerOptions;
 
-	return gulp.src(['typings/index.d.ts', APP_SRC_GLOB])
+	return gulp.src([APP_SRC_GLOB])
 		.pipe(plumber())
-		.pipe(typescript(compilerOptions))
+		.pipe(typescript(Object.assign({
+			additionalTscParameters: ['--types']
+		}, compilerOptions)))
 		.pipe(gulp.dest(APP_OUT_DIR))
 		.pipe(connect.reload());
 });
@@ -27,7 +29,7 @@ gulp.task('app', ['app:clear'], () => {
 gulp.task('app:prod', ['app', 'vendor'], () => {
 	let builder = new Builder('.', './systemjs.config.js');
 
-	return builder.bundle('app', 'build/bundle/app.min.js', { minify: true });
+	return builder.bundle('app', 'build/bundle/app.min.js');
 });
 
 gulp.task('app:watch', () => gulp.watch(APP_SRC_GLOB, ['app']));

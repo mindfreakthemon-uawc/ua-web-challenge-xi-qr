@@ -30,7 +30,7 @@ gulp.task('pages', ['vendor', 'templates', 'css'], () => {
 /**
  * Injects vendor bundle, app bundle into js section and all css into css section.
  */
-gulp.task('pages:prod', ['vendor', 'app:prod', 'css:prod'], () => {
+gulp.task('pages:prod', ['vendor', 'app:prod', 'templates', 'css:prod'], () => {
 	let vendor = gulp.src('build/bundle/vendor.js', { read: false });
 	let app = gulp.src('build/bundle/app.min.js', { read: false });
 
